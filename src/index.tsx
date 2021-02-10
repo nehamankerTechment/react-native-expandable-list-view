@@ -18,6 +18,7 @@ import {styles} from './styles';
 
 import white_chevron from './assets/images/white.png';
 import black_chevron from './assets/images/black.png';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export type InnerItem = {
   /**Inner Item id */
@@ -32,7 +33,7 @@ export interface Item {
   /**Item id */
   id: string;
   /**Inner Items */
-  subCategory: InnerItem[];
+  faqSubcategoryDtos: InnerItem[];
   /**Default text for Item */
   categoryName?: string;
   /**Add your custom Item */
@@ -321,7 +322,7 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
         </TouchableOpacity>
         {renderInnerItemSeparator !== undefined &&
           renderInnerItemSeparator &&
-          index < headerItem.subCategory.length - 1 && (
+          index < headerItem.faqSubcategoryDtos.length - 1 && (
             <View style={innerItemSeparatorStyle} />
           )}
       </>
@@ -362,6 +363,11 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
             CustomComponent
           ) : (
             <>
+            <View style = {{flex :1,flexDirection :'row',justifyContent :'space-between',paddingVertical :20}}>
+              <View style = {{flex :1,flexDirection :'row'}}>
+                <View style = {{backgroundColor:'#387af6',borderRadius:20,width :15,height :15}}/>
+                <Text style={{fontFamily :'Roboto-regular',fontSize : 16,marginVertical :0,paddingHorizontal:10}}>{item.categoryName}</Text>
+              </View>
               <Animated.Image
                 source={
                   customChevron !== undefined
@@ -371,9 +377,10 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
                     ? white_chevron
                     : black_chevron
                 }
-                resizeMethod="scale"
+                resizeMethod="resize"
                 resizeMode="contain"
                 style={[
+                  
                   itemImageIndicatorStyle,
                   animated === undefined ||
                   (animated !== undefined && animated)
@@ -399,8 +406,7 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
                       },
                 ]}
               />
-
-              <Text style={itemLabelStyle}>{item.categoryName}</Text>
+              </View>
             </>
           )}
         </TouchableOpacity>
@@ -435,7 +441,7 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
             maxToRenderPerBatch={50}
             keyExtractor={() => Math.random().toString()}
             listKey={String(Math.random())}
-            data={item.subCategory}
+            data={item.faqSubcategoryDtos}
             renderItem={(innerItem: any) =>
               renderInnerItem(innerItem, item, index)
             }
@@ -485,3 +491,4 @@ export const ExpandableListView: React.FC<Props> = ({data,innerItemLabelStyle,re
     </>
   );
 };
+
